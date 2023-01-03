@@ -1,5 +1,5 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
 import LayoutWrapper from "../components/LayoutWrapper";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -7,5 +7,5 @@ export default function App({ Component, pageProps }: AppProps) {
     <LayoutWrapper>
       <Component {...pageProps} />
     </LayoutWrapper>
-  )
+  );
 }
