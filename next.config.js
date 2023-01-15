@@ -4,10 +4,10 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: process.env.STRAPI_API_PROTOCOL || "http",
-        hostname: process.env.STRAPI_API_HOSTNAME || "127.0.0.1",
-        port: process.env.STRAPI_API_PORT || "1337",
-        pathname: process.env.STRAPI_API_PATHNAME || "/uploads/**",
+        protocol: process.env.STRAPI_API_PROTOCOL,
+        hostname: process.env.STRAPI_API_HOSTNAME,
+        port: process.env.STRAPI_API_PORT,
+        pathname: process.env.STRAPI_API_PATHNAME,
       },
     ],
   },
