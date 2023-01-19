@@ -7,7 +7,7 @@ export default function Home({ homepage }: any) {
     <>
       <Seo seo={homepage.attributes.seo} />
       <div className="relative overflow-hidden ">
-        <StrapiBackground image={homepage.attributes.Background} fill={true} cls="object-cover pointer-events-none absolute w-auto lg:max-h-[calc(100vh-5rem)] z-[0]" />
+        <StrapiBackground priority={true} image={homepage.attributes.Background} fill={true} cls="object-cover pointer-events-none absolute w-auto lg:max-h-[calc(100vh-5rem)] z-[0]" />
         <div className="relative px-6 lg:min-h-[calc(100vh-5rem)] lg:px-8 z-10">
           <div className="mx-auto max-w-3xl pt-20 pb-32 sm:pt-24 sm:pb-20">
             <div>
@@ -55,6 +55,5 @@ export async function getStaticProps() {
     props: {
       homepage: homepageRes.data,
     },
-    revalidate: 1,
   };
 }
