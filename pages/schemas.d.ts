@@ -15,14 +15,14 @@ import {
   EnumerationAttribute,
   BigIntegerAttribute,
   SingleTypeSchema,
-  MediaAttribute,
-  ComponentAttribute,
   RichTextAttribute,
+  TextAttribute,
+  ComponentAttribute,
+  MediaAttribute,
   IntegerAttribute,
   DecimalAttribute,
   SetMinMax,
   ComponentSchema,
-  TextAttribute,
 } from '@strapi/strapi';
 
 export interface AdminPermission extends CollectionTypeSchema {
@@ -268,6 +268,37 @@ export interface AdminApiTokenPermission extends CollectionTypeSchema {
       PrivateAttribute;
     updatedBy: RelationAttribute<
       'admin::api-token-permission',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
+export interface ApiAboutPageAboutPage extends SingleTypeSchema {
+  info: {
+    singularName: 'about-page';
+    pluralName: 'about-pages';
+    displayName: 'About Page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    AboutUs: RichTextAttribute;
+    Quote: TextAttribute;
+    Teams: ComponentAttribute<'shared.our-team-card', true>;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    publishedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::about-page.about-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::about-page.about-page',
       'oneToOne',
       'admin::user'
     > &
@@ -700,6 +731,24 @@ export interface SharedMetaSocial extends ComponentSchema {
   };
 }
 
+export interface SharedOurTeamCard extends ComponentSchema {
+  info: {
+    displayName: 'Our Team Card';
+    description: '';
+  };
+  attributes: {
+    Picture: MediaAttribute;
+    FullName: StringAttribute;
+    Position: StringAttribute;
+    Description: RichTextAttribute;
+    LinkedinLink: StringAttribute;
+    GithubLink: StringAttribute;
+    ResearchGateLink: StringAttribute;
+    TwitterLink: StringAttribute;
+    Email: EmailAttribute;
+  };
+}
+
 export interface SharedSeo extends ComponentSchema {
   info: {
     displayName: 'seo';
@@ -734,6 +783,7 @@ declare global {
       'admin::role': AdminRole;
       'admin::api-token': AdminApiToken;
       'admin::api-token-permission': AdminApiTokenPermission;
+      'api::about-page.about-page': ApiAboutPageAboutPage;
       'api::error-404-page.error-404-page': ApiError404PageError404Page;
       'api::global.global': ApiGlobalGlobal;
       'api::homepage.homepage': ApiHomepageHomepage;
@@ -744,6 +794,7 @@ declare global {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'shared.meta-social': SharedMetaSocial;
+      'shared.our-team-card': SharedOurTeamCard;
       'shared.seo': SharedSeo;
     }
   }

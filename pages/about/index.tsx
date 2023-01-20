@@ -1,19 +1,15 @@
 ﻿import * as Separator from "@radix-ui/react-separator";
 import OurTeamCard from "../../components/OurTeam/OurTeamCard";
-import Izzul from "../../public/Izzul.jpg";
+import { ApiAboutPageAboutPage, SharedOurTeamCard } from "../schemas";
+import { fetchStrapiAPI } from "../../lib/strapiApi";
 
-export default function AboutUs() {
+export default function AboutUs({ aboutUs }: { aboutUs: ApiAboutPageAboutPage }) {
   return (
     <div className="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0">
       <h2 className="my-5 text-center text-5xl text-white">About Us</h2>
       <Separator.Root className="mb-8 h-1 w-full bg-neutral-100" />
       <div className="whitespace-pre-wrap text-lg text-white">
-        <p>
-          GeoVartha, Geo means Earth in Greek + Vartha means Information in Sanskrit, is a community based research
-          group which focuses on the geoscientific subject. We commit to explore and spread the most advanced
-          development of geoscientific technology by keeping up with the technology development in the geoscientific
-          subject and proposing solutions based on the continual R&D.
-        </p>
+        <p>{aboutUs.attributes.AboutUs}</p>
       </div>
       <blockquote className="mt-20 text-2xl font-bold italic text-gray-900 dark:text-white">
         <svg
@@ -28,29 +24,50 @@ export default function AboutUs() {
             fill="currentColor"
           />
         </svg>
-        <p>
-          Our goal is to establish a platform to assist geoscientists around the world to access the latest technology
-          in geoscience research.
-        </p>
+        <p>{aboutUs.attributes.Quote}</p>
       </blockquote>
       <section>
-        <div className="mx-auto max-w-screen-xl py-8 px-4 lg:py-16 lg:px-6">
+        <h2 className="mt-10 text-center text-5xl text-white">Our Team</h2>
+        <Separator.Root className="mb-2 mt-5 h-1 w-full bg-neutral-100" />
+        <div className="mx-auto max-w-screen-xl py-2 px-4 lg:py-8 lg:px-6">
           <div className="mt-10 mb-6 grid gap-6 md:grid-cols-1 lg:mb-16">
-            <OurTeamCard
-              image={Izzul}
-              name="Izzul Qudsi"
-              position="Geoscientist / Group Coordinator"
-              description="Izzul has 8+ years experiences  in oil & gas industry. He completed his bachelor's degree in Geological Engineering Universitas Padjajaran and master's degree in ITC Universiteit Twente. He is a geoscientist with expertise on the surface and subsurface workflow applications for geothermal and oil and gas exploration. Currently learning the implementation of machine learning on geoscientific subjects."
-            />
-            <OurTeamCard
-              image={Izzul}
-              name="Izzul Qudsi"
-              position="Geoscientist / Group Coordinator"
-              description="Izzul has 8+ years experiences  in oil & gas industry.."
-            />
+            {aboutUs.attributes.Teams.map((team: SharedOurTeamCard["attributes"]) => {
+              return (
+                <OurTeamCard
+                  key={team.FullName}
+                  image={team.Picture}
+                  name={team.FullName}
+                  position={team.Position}
+                  description={team.Description}
+                  linkedin={team.LinkedinLink}
+                  github={team.GithubLink}
+                  researchGate={team.ResearchGateLink}
+                  twitter={team.TwitterLink}
+                  email={team.Email}
+                />
+              );
+            })}
           </div>
         </div>
       </section>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  // Run API calls in parallel
+  const [aboutUsRes] = await Promise.all([
+    fetchStrapiAPI("/about-page", {
+      populate: {
+        Teams: {
+          populate: ["Picture"],
+        },
+      },
+    }),
+  ]);
+  return {
+    props: {
+      aboutUs: aboutUsRes.data,
+    },
+  };
 }

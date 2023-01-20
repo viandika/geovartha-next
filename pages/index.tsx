@@ -1,8 +1,9 @@
 import { fetchStrapiAPI } from "../lib/strapiApi";
 import Seo from "../components/seo";
 import { StrapiBackground, StrapiImage } from "../components/StrapiImage";
+import { ApiHomepageHomepage } from "./schemas";
 
-export default function Home({ homepage }: any) {
+export default function Home({ homepage }: {homepage: ApiHomepageHomepage}) {
   return (
     <>
       <Seo seo={homepage.attributes.seo} />
