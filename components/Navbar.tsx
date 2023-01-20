@@ -2,19 +2,20 @@
 import Image from "next/image";
 import GeovLogo from "../public/cropped-vartha-research.png";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export const Navbar = () => {
   const [navShow, setNavShow] = useState(false);
   const handleNavClick = () => {
     setNavShow(!navShow);
   };
-
+  const router = useRouter();
   return (
     <nav className="border-gray-600 bg-neutral-800 px-2 py-2.5 sm:h-20 sm:px-4">
       <div className="container mx-auto flex flex-wrap items-center justify-between">
-        <a href="#" className="flex items-center">
+        <Link href="/" className="flex items-center">
           <Image src={GeovLogo} className="mr-3 h-9 w-auto sm:h-12" alt="Geovartha Logo" />
-        </a>
+        </Link>
         <button
           type="button"
           className="ml-3 inline-flex items-center rounded-lg p-2 text-sm text-gray-400 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600 md:hidden"
@@ -40,7 +41,9 @@ export const Navbar = () => {
             <li>
               <Link
                 href="/"
-                className="block rounded py-2 pl-3 pr-4 text-white underline md:bg-transparent md:p-0 md:text-lg"
+                className={`block rounded py-2 pl-3 pr-4 ${
+                  router.pathname == "/" ? "text-white underline" : "text-gray-400"
+                } hover:bg-gray-700 md:border-0 md:p-0 md:text-lg md:hover:bg-transparent md:hover:text-white`}
                 aria-current="page"
               >
                 Home
@@ -49,7 +52,9 @@ export const Navbar = () => {
             <li>
               <Link
                 href="/about"
-                className="block rounded py-2 pl-3 pr-4 text-gray-400 hover:bg-gray-700 md:border-0 md:p-0 md:text-lg md:hover:bg-transparent md:hover:text-white"
+                className={`block rounded py-2 pl-3 pr-4 ${
+                  router.pathname == "/about" ? "text-white underline" : "text-gray-400"
+                } hover:bg-gray-700 md:border-0 md:p-0 md:text-lg md:hover:bg-transparent md:hover:text-white`}
               >
                 About
               </Link>
