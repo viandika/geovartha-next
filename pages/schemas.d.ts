@@ -14,14 +14,17 @@ import {
   BooleanAttribute,
   EnumerationAttribute,
   BigIntegerAttribute,
+  IntegerAttribute,
+  DecimalAttribute,
+  SetMinMax,
   SingleTypeSchema,
   RichTextAttribute,
   TextAttribute,
   ComponentAttribute,
   MediaAttribute,
-  IntegerAttribute,
-  DecimalAttribute,
-  SetMinMax,
+  DateAttribute,
+  UIDAttribute,
+  DynamicZoneAttribute,
   ComponentSchema,
 } from '@strapi/strapi';
 
@@ -268,133 +271,6 @@ export interface AdminApiTokenPermission extends CollectionTypeSchema {
       PrivateAttribute;
     updatedBy: RelationAttribute<
       'admin::api-token-permission',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-  };
-}
-
-export interface ApiAboutPageAboutPage extends SingleTypeSchema {
-  info: {
-    singularName: 'about-page';
-    pluralName: 'about-pages';
-    displayName: 'About Page';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    AboutUs: RichTextAttribute;
-    Quote: TextAttribute;
-    Teams: ComponentAttribute<'shared.our-team-card', true>;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    publishedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<
-      'api::about-page.about-page',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<
-      'api::about-page.about-page',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-  };
-}
-
-export interface ApiError404PageError404Page extends SingleTypeSchema {
-  info: {
-    singularName: 'error-404-page';
-    pluralName: 'error-404-pages';
-    displayName: 'Error 404 Page';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    ErrorMessage: StringAttribute;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    publishedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<
-      'api::error-404-page.error-404-page',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<
-      'api::error-404-page.error-404-page',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-  };
-}
-
-export interface ApiGlobalGlobal extends SingleTypeSchema {
-  info: {
-    singularName: 'global';
-    pluralName: 'globals';
-    displayName: 'global';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    SiteName: StringAttribute;
-    favicon: MediaAttribute;
-    defaultSeo: ComponentAttribute<'shared.seo'>;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    publishedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<
-      'api::global.global',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<
-      'api::global.global',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-  };
-}
-
-export interface ApiHomepageHomepage extends SingleTypeSchema {
-  info: {
-    singularName: 'homepage';
-    pluralName: 'homepages';
-    displayName: 'Homepage';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    Logo: MediaAttribute;
-    Title: StringAttribute;
-    Subtitle: StringAttribute;
-    HeroText: RichTextAttribute;
-    Background: MediaAttribute;
-    seo: ComponentAttribute<'shared.seo'>;
-    createdAt: DateTimeAttribute;
-    updatedAt: DateTimeAttribute;
-    publishedAt: DateTimeAttribute;
-    createdBy: RelationAttribute<
-      'api::homepage.homepage',
-      'oneToOne',
-      'admin::user'
-    > &
-      PrivateAttribute;
-    updatedBy: RelationAttribute<
-      'api::homepage.homepage',
       'oneToOne',
       'admin::user'
     > &
@@ -710,6 +586,191 @@ export interface PluginUsersPermissionsUser extends CollectionTypeSchema {
   };
 }
 
+export interface ApiAboutPageAboutPage extends SingleTypeSchema {
+  info: {
+    singularName: 'about-page';
+    pluralName: 'about-pages';
+    displayName: 'About Page';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    AboutUs: RichTextAttribute;
+    Quote: TextAttribute;
+    Teams: ComponentAttribute<'shared.our-team-card', true>;
+    seo: ComponentAttribute<'shared.seo'>;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    publishedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::about-page.about-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::about-page.about-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
+export interface ApiError404PageError404Page extends SingleTypeSchema {
+  info: {
+    singularName: 'error-404-page';
+    pluralName: 'error-404-pages';
+    displayName: 'Error 404 Page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    ErrorMessage: StringAttribute;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    publishedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::error-404-page.error-404-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::error-404-page.error-404-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
+export interface ApiGlobalGlobal extends SingleTypeSchema {
+  info: {
+    singularName: 'global';
+    pluralName: 'globals';
+    displayName: 'global';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    SiteName: StringAttribute;
+    favicon: MediaAttribute;
+    defaultSeo: ComponentAttribute<'shared.seo'>;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    publishedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::global.global',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::global.global',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
+export interface ApiHomepageHomepage extends SingleTypeSchema {
+  info: {
+    singularName: 'homepage';
+    pluralName: 'homepages';
+    displayName: 'Homepage';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Logo: MediaAttribute;
+    Title: StringAttribute;
+    Subtitle: StringAttribute;
+    HeroText: RichTextAttribute;
+    Background: MediaAttribute;
+    seo: ComponentAttribute<'shared.seo'>;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    publishedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::homepage.homepage',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::homepage.homepage',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
+export interface ApiPublicationPublication extends CollectionTypeSchema {
+  info: {
+    singularName: 'publication';
+    pluralName: 'publications';
+    displayName: 'Publication';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Title: StringAttribute;
+    PublicationDate: DateAttribute;
+    Authors: TextAttribute;
+    Slug: UIDAttribute<'api::publication.publication', 'Title'>;
+    Abstract: DynamicZoneAttribute<
+      ['shared.image', 'shared.abstract-text', 'shared.read-more-link']
+    >;
+    seo: ComponentAttribute<'shared.seo'>;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    publishedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::publication.publication',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::publication.publication',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
+export interface SharedAbstractText extends ComponentSchema {
+  info: {
+    displayName: 'AbstractText';
+  };
+  attributes: {
+    Body: RichTextAttribute;
+  };
+}
+
+export interface SharedImage extends ComponentSchema {
+  info: {
+    displayName: 'Image';
+    description: '';
+  };
+  attributes: {
+    Media: MediaAttribute;
+  };
+}
+
 export interface SharedMetaSocial extends ComponentSchema {
   info: {
     displayName: 'metaSocial';
@@ -749,6 +810,23 @@ export interface SharedOurTeamCard extends ComponentSchema {
   };
 }
 
+export interface SharedPublications extends ComponentSchema {
+  info: {
+    displayName: 'Publications';
+  };
+  attributes: {};
+}
+
+export interface SharedReadMoreLink extends ComponentSchema {
+  info: {
+    displayName: 'ReadMoreLink';
+  };
+  attributes: {
+    Text: StringAttribute & DefaultTo<'Read more...'>;
+    Link: StringAttribute;
+  };
+}
+
 export interface SharedSeo extends ComponentSchema {
   info: {
     displayName: 'seo';
@@ -783,18 +861,23 @@ declare global {
       'admin::role': AdminRole;
       'admin::api-token': AdminApiToken;
       'admin::api-token-permission': AdminApiTokenPermission;
-      'api::about-page.about-page': ApiAboutPageAboutPage;
-      'api::error-404-page.error-404-page': ApiError404PageError404Page;
-      'api::global.global': ApiGlobalGlobal;
-      'api::homepage.homepage': ApiHomepageHomepage;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::about-page.about-page': ApiAboutPageAboutPage;
+      'api::error-404-page.error-404-page': ApiError404PageError404Page;
+      'api::global.global': ApiGlobalGlobal;
+      'api::homepage.homepage': ApiHomepageHomepage;
+      'api::publication.publication': ApiPublicationPublication;
+      'shared.abstract-text': SharedAbstractText;
+      'shared.image': SharedImage;
       'shared.meta-social': SharedMetaSocial;
       'shared.our-team-card': SharedOurTeamCard;
+      'shared.publications': SharedPublications;
+      'shared.read-more-link': SharedReadMoreLink;
       'shared.seo': SharedSeo;
     }
   }

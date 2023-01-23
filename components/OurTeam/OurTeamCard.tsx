@@ -26,14 +26,14 @@ const OurTeamCard = ({
   github,
 }: OurTeamCardProps) => {
   return (
-    <div className="flex w-full flex-col overflow-hidden rounded-lg shadow bg-neutral-900 hover:shadow-xl md:flex-row">
+    <div className="flex w-full flex-col overflow-hidden rounded-lg shadow bg-neutral-700 hover:shadow-xl md:flex-row">
       {/*<div className="h-full w-auto sm:w-64 md:h-80 lg:h-64">*/}
         <StrapiImage cls="h-auto w-full sm:h-auto lg:w-1/3 object-cover object-center" image={image} />
       {/*</div>*/}
       <div className="w-full space-y-2 p-6 text-left md:p-4">
         <h3 className="text-xl font-bold text-white">{name}</h3>
-        <span className="text-base font-normal text-gray-200">{position}</span>
-        <ReactMarkdown className="text-base font-normal leading-relaxed text-gray-400">{description}</ReactMarkdown>
+        <span className="text-base font-normal text-white italic">{position}</span>
+        <ReactMarkdown className="text-base font-normal leading-relaxed text-gray-300">{description}</ReactMarkdown>
         <div className="flex space-y-0 space-x-3">
           {linkedin && (
             <svg
