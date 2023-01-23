@@ -12,7 +12,7 @@ export default function AboutUs({ aboutUs }: { aboutUs: ApiAboutPageAboutPage })
         <div className="whitespace-pre-wrap text-lg text-white">
           <p>{aboutUs.attributes.AboutUs}</p>
         </div>
-        <blockquote className="mt-20 text-2xl font-bold italic text-gray-900 dark:text-white">
+        <blockquote className="mt-20 text-2xl font-bold italic text-white">
           <svg
             aria-hidden="true"
             className="h-10 w-10 text-gray-400 dark:text-gray-600"
