@@ -715,6 +715,38 @@ export interface ApiHomepageHomepage extends SingleTypeSchema {
   };
 }
 
+export interface ApiProjectsPageProjectsPage extends SingleTypeSchema {
+  info: {
+    singularName: 'projects-page';
+    pluralName: 'projects-pages';
+    displayName: 'Projects Page';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Description: RichTextAttribute;
+    Projects: ComponentAttribute<'shared.project', true>;
+    seo: ComponentAttribute<'shared.seo'>;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    publishedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<
+      'api::projects-page.projects-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<
+      'api::projects-page.projects-page',
+      'oneToOne',
+      'admin::user'
+    > &
+      PrivateAttribute;
+  };
+}
+
 export interface ApiPublicationPublication extends CollectionTypeSchema {
   info: {
     singularName: 'publication';
@@ -810,6 +842,19 @@ export interface SharedOurTeamCard extends ComponentSchema {
   };
 }
 
+export interface SharedProject extends ComponentSchema {
+  info: {
+    displayName: 'Project';
+  };
+  attributes: {
+    Logo: MediaAttribute;
+    Title: StringAttribute;
+    LinkToProject: StringAttribute;
+    DoiImage: MediaAttribute;
+    DoiLink: StringAttribute;
+  };
+}
+
 export interface SharedPublications extends ComponentSchema {
   info: {
     displayName: 'Publications';
@@ -871,11 +916,13 @@ declare global {
       'api::error-404-page.error-404-page': ApiError404PageError404Page;
       'api::global.global': ApiGlobalGlobal;
       'api::homepage.homepage': ApiHomepageHomepage;
+      'api::projects-page.projects-page': ApiProjectsPageProjectsPage;
       'api::publication.publication': ApiPublicationPublication;
       'shared.abstract-text': SharedAbstractText;
       'shared.image': SharedImage;
       'shared.meta-social': SharedMetaSocial;
       'shared.our-team-card': SharedOurTeamCard;
+      'shared.project': SharedProject;
       'shared.publications': SharedPublications;
       'shared.read-more-link': SharedReadMoreLink;
       'shared.seo': SharedSeo;
