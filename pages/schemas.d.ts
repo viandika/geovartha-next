@@ -21,9 +21,10 @@ import {
   RichTextAttribute,
   TextAttribute,
   ComponentAttribute,
-  MediaAttribute,
-  DateAttribute,
   UIDAttribute,
+  DateAttribute,
+  CustomField,
+  MediaAttribute,
   DynamicZoneAttribute,
   ComponentSchema,
 } from '@strapi/strapi';
@@ -619,6 +620,39 @@ export interface ApiAboutPageAboutPage extends SingleTypeSchema {
   };
 }
 
+export interface ApiBlogBlog extends CollectionTypeSchema {
+  info: {
+    singularName: 'blog';
+    pluralName: 'blogs';
+    displayName: 'Blog';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Title: StringAttribute;
+    Slug: UIDAttribute<'api::blog.blog', 'Title'> & RequiredAttribute;
+    DatePublished: DateAttribute;
+    Author: StringAttribute;
+    AdvancedText: RichTextAttribute &
+      CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'toolbar';
+        }
+      >;
+    seo: ComponentAttribute<'shared.seo'>;
+    createdAt: DateTimeAttribute;
+    updatedAt: DateTimeAttribute;
+    publishedAt: DateTimeAttribute;
+    createdBy: RelationAttribute<'api::blog.blog', 'oneToOne', 'admin::user'> &
+      PrivateAttribute;
+    updatedBy: RelationAttribute<'api::blog.blog', 'oneToOne', 'admin::user'> &
+      PrivateAttribute;
+  };
+}
+
 export interface ApiError404PageError404Page extends SingleTypeSchema {
   info: {
     singularName: 'error-404-page';
@@ -793,6 +827,53 @@ export interface SharedAbstractText extends ComponentSchema {
   };
 }
 
+export interface SharedBlogContent extends ComponentSchema {
+  info: {
+    displayName: 'BlogContent';
+  };
+  attributes: {};
+}
+
+export interface SharedContentTextImageInline extends ComponentSchema {
+  info: {
+    displayName: 'ContentTextImageInline';
+  };
+  attributes: {
+    Text: RichTextAttribute;
+    Image: MediaAttribute;
+    Position: EnumerationAttribute<
+      [
+        'Top Left',
+        'Top Center',
+        'Top Right',
+        'Middle Left',
+        'Center',
+        'Middle Right',
+        'Bottom Left',
+        'Bottom Center',
+        'Bottom Right'
+      ]
+    >;
+  };
+}
+
+export interface SharedContentTextOnly extends ComponentSchema {
+  info: {
+    displayName: 'ContentTextOnly';
+    description: '';
+  };
+  attributes: {
+    Text: RichTextAttribute;
+    AdvancedText: RichTextAttribute &
+      CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'toolbarBaloon';
+        }
+      >;
+  };
+}
+
 export interface SharedImage extends ComponentSchema {
   info: {
     displayName: 'Image';
@@ -913,12 +994,16 @@ declare global {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::about-page.about-page': ApiAboutPageAboutPage;
+      'api::blog.blog': ApiBlogBlog;
       'api::error-404-page.error-404-page': ApiError404PageError404Page;
       'api::global.global': ApiGlobalGlobal;
       'api::homepage.homepage': ApiHomepageHomepage;
       'api::projects-page.projects-page': ApiProjectsPageProjectsPage;
       'api::publication.publication': ApiPublicationPublication;
       'shared.abstract-text': SharedAbstractText;
+      'shared.blog-content': SharedBlogContent;
+      'shared.content-text-image-inline': SharedContentTextImageInline;
+      'shared.content-text-only': SharedContentTextOnly;
       'shared.image': SharedImage;
       'shared.meta-social': SharedMetaSocial;
       'shared.our-team-card': SharedOurTeamCard;

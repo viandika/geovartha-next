@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "../styles/ckeditor.css";
 import type { AppProps } from "next/app";
 import LayoutWrapper from "../components/LayoutWrapper";
 import { Analytics } from "@vercel/analytics/react";

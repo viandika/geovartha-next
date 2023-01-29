@@ -1,5 +1,5 @@
-/** @type {import('tailwindcss').Config} */
-const { fontFamily } = require('tailwindcss/defaultTheme')
+/** @type {import("tailwindcss").Config} */
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 module.exports = {
   content: [
@@ -9,9 +9,12 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-roboto)", ...fontFamily.sans]
-      }
+        sans: ["var(--font-roboto)", ...fontFamily.sans],
+      },
+      colors: {
+        geovartha: "#f08519",
+      },
     },
   },
   plugins: [],
-}
+};
