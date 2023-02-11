@@ -81,7 +81,10 @@ export const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/blogs"
+                href={{
+                  pathname: "/blogs/[page]",
+                  query: { page: "1" },
+                }}
                 className={`block rounded py-2 pl-3 pr-4 ${
                   router.pathname == "/blogs" ? "text-white underline" : "text-gray-400"
                 } hover:bg-gray-700 md:border-0 md:p-0 md:text-lg md:hover:bg-transparent md:hover:text-white`}
