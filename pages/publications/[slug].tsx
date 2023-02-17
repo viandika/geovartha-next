@@ -17,9 +17,9 @@ export default function Publications({ publications }: { publications: ApiPublic
           <span className="inline-block px-2">&lt;--</span>
           <span>Back to Publications Page</span>
         </Link>
-        <h2 className="my-5 text-center text-5xl text-white">{publications[0].attributes.Title}</h2>
+        <h1 className="my-5 text-center text-5xl text-white">{publications[0].attributes.Title}</h1>
         <Separator.Root className="mb-8 h-1 w-full bg-neutral-100" />
-        <h4 className="text-xl italic text-white">Authors: {publications[0].attributes.Authors}</h4>
+        <h2 className="text-xl italic text-white">Authors: {publications[0].attributes.Authors}</h2>
         <p className="mb-4 text-white">
           {new Date(publications[0].attributes.PublicationDate).toLocaleDateString("en-GB", {
             day: "2-digit",

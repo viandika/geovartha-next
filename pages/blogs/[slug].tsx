@@ -17,7 +17,7 @@ export default function Blogs({ blogs }: { blogs: ApiBlogBlog[] }) {
           <span className="inline-block px-2">&lt;--</span>
           <span>Back to Blogs Page</span>
         </Link>
-        <h2 className="my-5 text-center text-5xl text-white">{blogs[0].attributes.Title}</h2>
+        <h1 className="my-5 text-center text-5xl text-white">{blogs[0].attributes.Title}</h1>
         <Separator.Root className="mb-8 h-1 w-full bg-neutral-100" />
         <p className="text-base italic text-gray-200">
           {new Date(blogs[0].attributes.DatePublished).toLocaleDateString("en-GB", {

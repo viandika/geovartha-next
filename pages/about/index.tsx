@@ -7,7 +7,7 @@ export default function AboutUs({ aboutUs }: { aboutUs: ApiAboutPageAboutPage })
   return (
     <>
       <div className="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0">
-        <h2 className="my-5 text-center text-5xl text-white">About Us</h2>
+        <h1 className="my-5 text-center text-5xl text-white">About Us</h1>
         <Separator.Root className="mb-8 h-1 w-full bg-neutral-100" />
         <div className="whitespace-pre-wrap text-lg text-white">
           <p>{aboutUs.attributes.AboutUs}</p>

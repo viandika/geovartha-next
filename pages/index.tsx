@@ -25,9 +25,9 @@ export default function Home({ homepage }: { homepage: ApiHomepageHomepage }) {
               <h1 className="text-4xl font-bold tracking-tight text-[#0A9FD7] sm:text-center sm:text-6xl">
                 {homepage.attributes.Title}
               </h1>
-              <p className="mt-6 text-xl italic leading-8 text-gray-200 sm:text-center sm:text-2xl">
+              <h2 className="mt-6 text-xl italic leading-8 text-gray-200 sm:text-center sm:text-2xl">
                 {homepage.attributes.Subtitle}
-              </p>
+              </h2>
               <p className="mt-6 text-lg leading-8 text-gray-200 sm:text-center sm:text-2xl">
                 {homepage.attributes.HeroText}
               </p>

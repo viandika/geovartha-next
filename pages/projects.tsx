@@ -9,7 +9,7 @@ export default function projects({ projects }: { projects: ApiProjectsPageProjec
   return (
     <>
       <div className="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0">
-        <h2 className="my-5 text-center text-5xl text-white">Projects</h2>
+        <h1 className="my-5 text-center text-5xl text-white">Projects</h1>
         <Separator.Root className="mb-8 h-1 w-full bg-neutral-100" />
         <div className="mb-4 whitespace-pre-wrap text-lg text-white">
           <p>{projects.attributes.Description}</p>
