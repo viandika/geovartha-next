@@ -53,10 +53,20 @@ export async function getStaticProps() {
   // Run API calls in parallel
   const [homepageRes] = await Promise.all([
     fetchStrapiAPI("/homepage", {
-      populate: "*",
+      populate: {
+        seo: {
+          populate: "*",
+        },
+        Background: {
+          populate: "*"
+        },
+        Logo: {
+          populate: "*"
+        }
+      },
     }),
   ]);
-
+  console.log(homepageRes.data.attributes.seo);
   return {
     props: {
       homepage: homepageRes.data,
