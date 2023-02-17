@@ -1,52 +1,47 @@
-﻿import { fetchStrapiAPI } from "../../../lib/strapiApi";
-import { ApiBlogBlog } from "../../schemas";
-import * as Separator from "@radix-ui/react-separator";
-import { StrapiMeta } from "../../common";
+﻿import * as Separator from "@radix-ui/react-separator";
+import { fetchStrapiAPI } from "../../../lib/strapiApi";
+import { ApiPublicationPublication } from "../../schemas";
 import Link from "next/link";
+import { StrapiMeta } from "../../common";
 
-const blogsPerPage = 5;
+const publicationsPerPage = 5;
 
-export default function Blogs({ blogs, blogsMeta }: { blogs: ApiBlogBlog[]; blogsMeta: StrapiMeta }) {
-  const pagesArr = Array.from(Array(blogsMeta.pagination.pageCount), (_, i) => i + 1);
+export default function Publications({
+  publications,
+  publicationsMeta,
+}: {
+  publications: ApiPublicationPublication[];
+  publicationsMeta: StrapiMeta;
+}) {
+  const pagesArr = Array.from(Array(publicationsMeta.pagination.pageCount), (_, i) => i + 1);
   return (
     <>
-      <div className="mx-auto max-w-3xl px-4 py-2 sm:px-6 xl:max-w-5xl xl:px-0">
-        <h2 className="my-5 text-center text-5xl text-white">Blogs</h2>
+      <div className="mx-auto max-w-3xl px-4 pb-2 sm:px-6 xl:max-w-7xl xl:px-0">
+        <h2 className="my-5 text-center text-5xl text-white">Publications</h2>
         <Separator.Root className="mb-8 h-1 w-full bg-neutral-100" />
-        <div className="grid grid-cols-1 gap-4">
-          {blogs.map((blog) => {
-            return (
+        {publications.map((publication) => {
+          return (
+            <div key={publication.attributes.Title} className="mt-8 rounded-xl bg-neutral-700 p-4 shadow">
+              <Link href={`/publications/${publication.attributes.Slug}`}>
+                <h2 className="mb-2 text-3xl text-geovartha">{publication.attributes.Title}</h2>
+              </Link>
+              <h3 className="italic text-white">Authors: {publication.attributes.Authors}</h3>
+              <p className="text-white">{publication.attributes.PublicationDate}</p>
               <div
-                key={blog.attributes.Title}
-                className="mx-4 h-auto rounded-xl bg-neutral-700 p-4 shadow hover:shadow-xl"
-              >
-                <Link href={`/blogs/${blog.attributes.Slug}`}>
-                  <h2 className="mb-2 text-xl text-geovartha">{blog.attributes.Title}</h2>
-                </Link>
-                <p className="text-base italic text-gray-200">
-                  {new Date(blog.attributes.DatePublished).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "long",
-                    year: "numeric",
-                  })}
-                </p>
-                <p className="text-base italic text-gray-200">By: {blog.attributes.Author}</p>
-                <div
-                  className="ck-content mt-2 text-white"
-                  dangerouslySetInnerHTML={createMarkup(blog.attributes.AdvancedText)}
-                />
-              </div>
-            );
-          })}
-        </div>
+                className="ck-content mt-2 text-white"
+                dangerouslySetInnerHTML={createMarkup(publication.attributes.Abstract)}
+              />
+            </div>
+          );
+        })}
         <nav className="flex justify-center">
           <ul className="mt-5 inline-flex items-center -space-x-px">
             <li>
               <Link
-                href={`/blogs/page/${
-                  blogsMeta.pagination.page < blogsMeta.pagination.pageCount
-                    ? blogsMeta.pagination.page - 1
-                    : blogsMeta.pagination.page
+                href={`/publications/page/${
+                  publicationsMeta.pagination.page < publicationsMeta.pagination.pageCount
+                    ? publicationsMeta.pagination.page - 1
+                    : publicationsMeta.pagination.page
                 }`}
                 className="ml-0 block rounded-l-lg border border-neutral-500 bg-neutral-700 px-3 py-2 leading-tight text-white hover:bg-neutral-500 hover:text-gray-700"
               >
@@ -69,9 +64,13 @@ export default function Blogs({ blogs, blogsMeta }: { blogs: ApiBlogBlog[]; blog
               return (
                 <li key={value}>
                   <Link
-                    href={`/blogs/page/${value === blogsMeta.pagination.page ? blogsMeta.pagination.page : value}`}
+                    href={`/publications/page/${
+                      value === publicationsMeta.pagination.page ? publicationsMeta.pagination.page : value
+                    }`}
                     className={`block border border-neutral-500 px-3 py-2 leading-tight hover:bg-neutral-500 hover:text-gray-700 ${
-                      value === blogsMeta.pagination.page ? "bg-neutral-500 text-gray-700" : "bg-neutral-700 text-white"
+                      value === publicationsMeta.pagination.page
+                        ? "bg-neutral-500 text-gray-700"
+                        : "bg-neutral-700 text-white"
                     }`}
                   >
                     {value}
@@ -81,10 +80,10 @@ export default function Blogs({ blogs, blogsMeta }: { blogs: ApiBlogBlog[]; blog
             })}
             <li>
               <Link
-                href={`/blogs/page/${
-                  blogsMeta.pagination.page < blogsMeta.pagination.pageCount
-                    ? blogsMeta.pagination.page + 1
-                    : blogsMeta.pagination.page
+                href={`/publications/page/${
+                  publicationsMeta.pagination.page < publicationsMeta.pagination.pageCount
+                    ? publicationsMeta.pagination.page + 1
+                    : publicationsMeta.pagination.page
                 }`}
                 className="block rounded-r-lg border border-neutral-500 bg-neutral-700 px-3 py-2 leading-tight text-white hover:bg-neutral-500 hover:text-gray-700"
               >
@@ -111,17 +110,17 @@ export default function Blogs({ blogs, blogsMeta }: { blogs: ApiBlogBlog[]; blog
 }
 
 export async function getStaticPaths() {
-  const [blogsRes] = await Promise.all([
-    fetchStrapiAPI("/blogs", {
-      sort: ["DatePublished:desc"],
+  const [publicationsRes] = await Promise.all([
+    fetchStrapiAPI("/publications", {
+      sort: ["PublicationDate:desc"],
       fields: ["id"],
       pagination: {
-        pageSize: blogsPerPage,
+        pageSize: publicationsPerPage,
       },
     }),
   ]);
   let paths = [];
-  for (let i = 0; i < blogsRes.meta.pagination.pageCount; i++) {
+  for (let i = 0; i < publicationsRes.meta.pagination.pageCount; i++) {
     paths.push({
       params: { page: `${i + 1}` },
     });
@@ -133,24 +132,20 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: { params: { page: number } }) {
-  const [blogsRes] = await Promise.all([
-    fetchStrapiAPI("/blogs", {
-      sort: ["DatePublished:desc"],
+  // Run API calls in parallel
+  const [PublicationsRes] = await Promise.all([
+    fetchStrapiAPI("/publications", {
+      sort: ["PublicationDate:desc"],
       pagination: {
         page: params.page,
-        pageSize: blogsPerPage,
-      },
-      populate: {
-        BlogContent: {
-          populate: "*",
-        },
+        pageSize: publicationsPerPage,
       },
     }),
   ]);
   return {
     props: {
-      blogs: blogsRes.data,
-      blogsMeta: blogsRes.meta,
+      publications: PublicationsRes.data,
+      publicationsMeta: PublicationsRes.meta,
     },
   };
 }
