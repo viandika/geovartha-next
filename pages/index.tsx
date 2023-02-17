@@ -3,13 +3,18 @@ import Seo from "../components/seo";
 import { StrapiBackground, StrapiImage } from "../components/StrapiImage";
 import { ApiHomepageHomepage } from "./schemas";
 
-export default function Home({ homepage }: {homepage: ApiHomepageHomepage}) {
+export default function Home({ homepage }: { homepage: ApiHomepageHomepage }) {
   return (
     <>
       <Seo seo={homepage.attributes.seo} />
       <div className="relative overflow-hidden ">
-        <StrapiBackground priority={true} image={homepage.attributes.Background} fill={true} cls="object-cover pointer-events-none absolute w-auto lg:max-h-[calc(100vh-5rem)] z-[0]" />
-        <div className="relative px-6 lg:min-h-[calc(100vh-5rem)] lg:px-8 z-10">
+        <StrapiBackground
+          priority={true}
+          image={homepage.attributes.Background}
+          fill={true}
+          cls="object-cover pointer-events-none absolute w-auto lg:max-h-[calc(100vh-5rem)] z-[0]"
+        />
+        <div className="relative z-10 px-6 lg:min-h-[calc(100vh-5rem)] lg:px-8">
           <div className="mx-auto max-w-3xl pt-20 pb-32 sm:pt-24 sm:pb-20">
             <div>
               <StrapiImage

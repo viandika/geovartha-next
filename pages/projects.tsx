@@ -14,10 +14,10 @@ export default function projects({ projects }: { projects: ApiProjectsPageProjec
         <div className="mb-4 whitespace-pre-wrap text-lg text-white">
           <p>{projects.attributes.Description}</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {projects.attributes.Projects.map((project: SharedProject["attributes"]) => {
             return (
-              <div key={project.Title} className="mx-4 rounded-xl bg-neutral-700 shadow hover:shadow-xl p-2">
+              <div key={project.Title} className="mx-4 rounded-xl bg-neutral-700 p-2 shadow hover:shadow-xl">
                 <a href={project.LinkToProject} target="_blank" rel="noreferrer">
                   <StrapiImage
                     cls="h-auto w-full sm:h-auto lg:w-4/5 object-cover object-center mx-auto"
@@ -29,7 +29,7 @@ export default function projects({ projects }: { projects: ApiProjectsPageProjec
                   {project.DoiLink && (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      className="max-w-1/2 mx-auto h-auto object-cover object-center sm:h-auto my-2"
+                      className="max-w-1/2 mx-auto my-2 h-auto object-cover object-center sm:h-auto"
                       src={getStrapiMedia(project.DoiImage)}
                       alt="Doi"
                     />

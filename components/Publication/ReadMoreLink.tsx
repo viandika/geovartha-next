@@ -1,7 +1,14 @@
-const ReadMoreLink = ({Text, Link}: {Text: string, Link: string }) => {
+const ReadMoreLink = ({ Text, Link }: { Text: string; Link: string }) => {
   return (
-    <a href={Link} target="_blank" rel="noreferrer" className="text-orange-400 hover:text-orange-500 text-base cursor-pointer">{Text}</a>
-  )
-}
+    <a
+      href={Link}
+      target="_blank"
+      rel="noreferrer"
+      className="cursor-pointer text-base text-orange-400 hover:text-orange-500"
+    >
+      {Text}
+    </a>
+  );
+};
 
-export default ReadMoreLink
+export default ReadMoreLink;

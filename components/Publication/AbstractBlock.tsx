@@ -4,15 +4,15 @@ import ReadMoreLink from "./ReadMoreLink";
 
 const getBlockComponent = ({ __component, ...rest }: any, index: any) => {
   let Block;
-  
+
   switch (__component) {
-    case 'shared.abstract-text':
+    case "shared.abstract-text":
       Block = AbstractText;
       break;
-    case 'shared.image':
+    case "shared.image":
       Block = AbstractImages;
       break;
-    case 'shared.read-more-link':
+    case "shared.read-more-link":
       Block = ReadMoreLink;
       break;
   }
@@ -26,6 +26,6 @@ const AbstractBlock = ({ blocks }: any) => {
 
 AbstractBlock.defaultProps = {
   blocks: [],
-}
+};
 
 export default AbstractBlock;

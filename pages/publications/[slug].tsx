@@ -6,7 +6,7 @@ import Link from "next/link";
 export default function Publications({ publications }: { publications: ApiPublicationPublication[] }) {
   return (
     <>
-      <div className="mx-auto max-w-3xl px-4 pb-2 sm:px-6 xl:max-w-7xl xl:px-0 pb-6">
+      <div className="mx-auto max-w-3xl px-4 pb-2 pb-6 sm:px-6 xl:max-w-7xl xl:px-0">
         <Link
           href={{
             pathname: "/publications/page/[page]",
@@ -19,8 +19,8 @@ export default function Publications({ publications }: { publications: ApiPublic
         </Link>
         <h2 className="my-5 text-center text-5xl text-white">{publications[0].attributes.Title}</h2>
         <Separator.Root className="mb-8 h-1 w-full bg-neutral-100" />
-        <h4 className="italic text-white text-xl">Authors: {publications[0].attributes.Authors}</h4>
-        <p className="text-white mb-4">
+        <h4 className="text-xl italic text-white">Authors: {publications[0].attributes.Authors}</h4>
+        <p className="mb-4 text-white">
           {new Date(publications[0].attributes.PublicationDate).toLocaleDateString("en-GB", {
             day: "2-digit",
             month: "long",

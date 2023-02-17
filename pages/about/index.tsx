@@ -28,30 +28,30 @@ export default function AboutUs({ aboutUs }: { aboutUs: ApiAboutPageAboutPage })
           <p>{aboutUs.attributes.Quote}</p>
         </blockquote>
       </div>
-        <section>
-          <h2 className="mt-10 text-center text-5xl text-white">Our Team</h2>
-          <Separator.Root className=" mx-auto mb-2 mt-5 h-1 w-full bg-neutral-100 max-w-3xl xl:max-w-5xl" />
-          <div className="py-2 px-4 lg:py-8 lg:px-6">
-            <div className="mx-auto mt-10 mb-6 grid gap-6 grid-cols-1 lg:grid-cols-2 lg:mb-16 lg:max-w-[100rem]">
-              {aboutUs.attributes.Teams.map((team: SharedOurTeamCard["attributes"]) => {
-                return (
-                  <OurTeamCard
-                    key={team.FullName}
-                    image={team.Picture}
-                    name={team.FullName}
-                    position={team.Position}
-                    description={team.Description}
-                    linkedin={team.LinkedinLink}
-                    github={team.GithubLink}
-                    researchGate={team.ResearchGateLink}
-                    twitter={team.TwitterLink}
-                    email={team.Email}
-                  />
-                );
-              })}
-            </div>
+      <section>
+        <h2 className="mt-10 text-center text-5xl text-white">Our Team</h2>
+        <Separator.Root className=" mx-auto mb-2 mt-5 h-1 w-full max-w-3xl bg-neutral-100 xl:max-w-5xl" />
+        <div className="py-2 px-4 lg:py-8 lg:px-6">
+          <div className="mx-auto mt-10 mb-6 grid grid-cols-1 gap-6 lg:mb-16 lg:max-w-[100rem] lg:grid-cols-2">
+            {aboutUs.attributes.Teams.map((team: SharedOurTeamCard["attributes"]) => {
+              return (
+                <OurTeamCard
+                  key={team.FullName}
+                  image={team.Picture}
+                  name={team.FullName}
+                  position={team.Position}
+                  description={team.Description}
+                  linkedin={team.LinkedinLink}
+                  github={team.GithubLink}
+                  researchGate={team.ResearchGateLink}
+                  twitter={team.TwitterLink}
+                  email={team.Email}
+                />
+              );
+            })}
           </div>
-        </section>
+        </div>
+      </section>
     </>
   );
 }

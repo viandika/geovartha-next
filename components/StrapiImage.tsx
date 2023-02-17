@@ -12,5 +12,14 @@ export const StrapiImage = ({ image, cls }: any) => {
 export const StrapiBackground = ({ image, cls, priority }: any) => {
   const { alternativeText } = image.data.attributes;
 
-  return <Image fill={true} quality="100" src={getStrapiMedia(image)} alt={alternativeText || ""} className={cls} priority={priority} />;
+  return (
+    <Image
+      fill={true}
+      quality="100"
+      src={getStrapiMedia(image)}
+      alt={alternativeText || ""}
+      className={cls}
+      priority={priority}
+    />
+  );
 };
