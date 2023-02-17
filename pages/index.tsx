@@ -2,6 +2,7 @@ import { fetchStrapiAPI } from "../lib/strapiApi";
 import Seo from "../components/seo";
 import { StrapiBackground, StrapiImage } from "../components/StrapiImage";
 import { ApiHomepageHomepage } from "./schemas";
+import Link from "next/link";
 
 export default function Home({ homepage }: { homepage: ApiHomepageHomepage }) {
   return (
@@ -31,15 +32,15 @@ export default function Home({ homepage }: { homepage: ApiHomepageHomepage }) {
                 {homepage.attributes.HeroText}
               </p>
               <div className="mt-8 flex gap-x-4 sm:justify-center">
-                <a
-                  href="#"
+                <Link
+                  href="/about"
                   className="inline-block rounded-lg bg-indigo-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-sm ring-1 ring-indigo-600 hover:bg-indigo-700 hover:ring-indigo-700"
                 >
                   About Us
                   <span className="text-indigo-200" aria-hidden="true">
                     &rarr;
                   </span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -58,11 +59,11 @@ export async function getStaticProps() {
           populate: "*",
         },
         Background: {
-          populate: "*"
+          populate: "*",
         },
         Logo: {
-          populate: "*"
-        }
+          populate: "*",
+        },
       },
     }),
   ]);
