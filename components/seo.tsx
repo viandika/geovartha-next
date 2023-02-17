@@ -2,9 +2,10 @@
 import { useContext } from "react";
 import { GlobalContext } from "../pages/_app";
 import { getStrapiMedia } from "../lib/strapiMedia";
+import { ApiGlobalGlobal, SharedSeo } from "../pages/schemas";
 
-const Seo = ({ seo }: any) => {
-  const { defaultSeo, SiteName } = useContext<any>(GlobalContext);
+const Seo = ({ seo }: { seo: SharedSeo }) => {
+  const { defaultSeo, SiteName } = useContext<ApiGlobalGlobal["attributes"]>(GlobalContext);
   const seoWithDefaults = {
     ...defaultSeo,
     ...seo,

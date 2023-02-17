@@ -6,11 +6,18 @@ import { Analytics } from "@vercel/analytics/react";
 import { createContext } from "react";
 import { fetchStrapiAPI } from "../lib/strapiApi";
 import App from "next/app";
+import { ApiGlobalGlobal } from "./schemas";
 
 // Store Strapi Global object in context
-export const GlobalContext = createContext({});
+export const GlobalContext = createContext<ApiGlobalGlobal["attributes"]>({} as ApiGlobalGlobal["attributes"]);
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+export default function MyApp({
+  Component,
+  pageProps,
+}: {
+  Component: AppProps["Component"];
+  pageProps: { global: ApiGlobalGlobal };
+}) {
   const { global } = pageProps;
   return (
     <GlobalContext.Provider value={global.attributes}>
