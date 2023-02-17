@@ -37,7 +37,7 @@ export const Navbar = () => {
           </svg>
         </button>
         <div className={`${navShow ? "" : "hidden"} w-full md:block md:w-auto`} id="navbar-default">
-          <ul className="mt-4 flex flex-col rounded-lg border border-neutral-600 bg-neutral-800 p-4 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:bg-neutral-800 md:text-sm md:font-medium">
+          <ul className="mt-4 flex flex-col rounded-lg border border-neutral-600 bg-neutral-800 p-4 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-neutral-800 md:text-sm md:font-medium">
             <li>
               <Link
                 href="/"
