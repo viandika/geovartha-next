@@ -67,7 +67,6 @@ export async function getStaticProps() {
       },
     }),
   ]);
-  console.log(homepageRes.data.attributes.seo);
   return {
     props: {
       homepage: homepageRes.data,
