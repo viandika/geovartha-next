@@ -14,7 +14,7 @@ export default function Blogs({ blogs, preview = false }: { blogs: ApiBlogBlog[]
                 <span>Preview mode is on,</span>
                 <span className="block sm:ml-2 sm:inline-block">
                   <a
-                    href="http://localhost:3000/api/exit-preview"
+                    href={`${process.env.FRONTEND_URL || "http://127.0.0.1:3000"}/api/exit-preview`}
                     className="hover:text-cyan underline transition-colors"
                   >
                     turn off
@@ -85,7 +85,7 @@ export async function getStaticProps({ params, preview = false }: { params: { sl
     return {
       props: {
         blogs: blogsRes.data,
-        preview
+        preview,
       },
     };
   } else {
