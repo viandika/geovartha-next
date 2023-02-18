@@ -3,9 +3,28 @@ import { ApiBlogBlog } from "../schemas";
 import * as Separator from "@radix-ui/react-separator";
 import Link from "next/link";
 
-export default function Blogs({ blogs }: { blogs: ApiBlogBlog[] }) {
+export default function Blogs({ blogs, preview = false }: { blogs: ApiBlogBlog[]; preview: boolean }) {
   return (
     <>
+      {preview ? (
+        <div className="relative bg-indigo-600">
+          <div className="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">
+            <div className="pr-16 sm:px-16 sm:text-center">
+              <p className="font-medium text-white">
+                <span>Preview mode is on,</span>
+                <span className="block sm:ml-2 sm:inline-block">
+                  <a
+                    href="http://localhost:3000/api/exit-preview"
+                    className="hover:text-cyan underline transition-colors"
+                  >
+                    turn off
+                  </a>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      ) : null}
       <div className="mx-auto max-w-3xl px-4 py-2 sm:px-6 xl:max-w-5xl xl:px-0">
         <Link
           href={{
@@ -48,24 +67,46 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params }: { params: { slug: string } }) {
-  const [blogsRes] = await Promise.all([
-    fetchStrapiAPI("/blogs", {
-      filters: {
-        slug: params.slug,
-      },
-      populate: {
-        BlogContent: {
-          populate: "*",
+export async function getStaticProps({ params, preview = false }: { params: { slug: string }; preview: boolean }) {
+  if (preview) {
+    const [blogsRes] = await Promise.all([
+      fetchStrapiAPI("/blogs", {
+        publicationState: "preview",
+        filters: {
+          slug: params.slug,
         },
+        populate: {
+          BlogContent: {
+            populate: "*",
+          },
+        },
+      }),
+    ]);
+    return {
+      props: {
+        blogs: blogsRes.data,
+        preview
       },
-    }),
-  ]);
-  return {
-    props: {
-      blogs: blogsRes.data,
-    },
-  };
+    };
+  } else {
+    const [blogsRes] = await Promise.all([
+      fetchStrapiAPI("/blogs", {
+        filters: {
+          slug: params.slug,
+        },
+        populate: {
+          BlogContent: {
+            populate: "*",
+          },
+        },
+      }),
+    ]);
+    return {
+      props: {
+        blogs: blogsRes.data,
+      },
+    };
+  }
 }
 
 function createMarkup(text: any) {
