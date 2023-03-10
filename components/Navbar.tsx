@@ -38,7 +38,7 @@ export const Navbar = () => {
         </button>
         <div className={`${navShow ? "" : "hidden"} w-full md:block md:w-auto`} id="navbar-default">
           <ul className="mt-4 flex flex-col rounded-lg border border-neutral-600 bg-neutral-800 p-4 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-neutral-800 md:text-sm md:font-medium">
-            <li>
+            <li key="homeLink">
               <Link
                 href="/"
                 className={`block rounded py-2 pl-3 pr-4 ${
@@ -49,7 +49,7 @@ export const Navbar = () => {
                 Home
               </Link>
             </li>
-            <li>
+            <li key="aboutLink">
               <Link
                 href="/about"
                 className={`block rounded py-2 pl-3 pr-4 ${
@@ -59,7 +59,7 @@ export const Navbar = () => {
                 About
               </Link>
             </li>
-            <li>
+            <li key="publicationsLink">
               <Link
                 href={{
                   pathname: "/publications/page/[page]",
@@ -72,7 +72,7 @@ export const Navbar = () => {
                 Publications
               </Link>
             </li>
-            <li>
+            <li key="projectsLink">
               <Link
                 href="/projects"
                 className={`block rounded py-2 pl-3 pr-4 ${
@@ -82,7 +82,7 @@ export const Navbar = () => {
                 Projects
               </Link>
             </li>
-            <li>
+            <li key="blogsLink">
               <Link
                 href={{
                   pathname: "/blogs/page/[page]",
@@ -95,7 +95,7 @@ export const Navbar = () => {
                 Blogs
               </Link>
             </li>
-            <li>
+            <li key="contactLink">
               <a
                 href="#"
                 className="block rounded py-2 pl-3 pr-4 text-gray-400 hover:bg-gray-700 md:border-0 md:p-0 md:text-lg md:hover:bg-transparent md:hover:text-white"
