@@ -2,10 +2,12 @@
 import { ApiPublicationPublication } from "../schemas";
 import * as Separator from "@radix-ui/react-separator";
 import Link from "next/link";
+import Seo from "../../components/seo";
 
 export default function Publications({ publications }: { publications: ApiPublicationPublication[] }) {
   return (
     <>
+      <Seo seo={publications[0].attributes.seo} />
       <div className="mx-auto max-w-3xl px-4 pb-2 pb-6 sm:px-6 xl:max-w-7xl xl:px-0">
         <Link
           href={{

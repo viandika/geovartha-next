@@ -2,10 +2,12 @@
 import OurTeamCard from "../../components/OurTeam/OurTeamCard";
 import { ApiAboutPageAboutPage, SharedOurTeamCard } from "../schemas";
 import { fetchStrapiAPI } from "../../lib/strapiApi";
+import Seo from "../../components/seo";
 
 export default function AboutUs({ aboutUs }: { aboutUs: ApiAboutPageAboutPage }) {
   return (
     <>
+      <Seo seo={aboutUs.attributes.seo} />
       <div className="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0">
         <h1 className="my-5 text-center text-5xl text-white">About Us</h1>
         <Separator.Root className="mb-8 h-1 w-full bg-neutral-100" />

@@ -3,11 +3,13 @@ import { fetchStrapiAPI } from "../lib/strapiApi";
 import * as Separator from "@radix-ui/react-separator";
 import { StrapiImage } from "../components/StrapiImage";
 import { getStrapiMedia } from "../lib/strapiMedia";
+import Seo from "../components/seo";
 
 export default function projects({ projects }: { projects: ApiProjectsPageProjectsPage }) {
   console.log(projects.attributes.Projects[0].DoiImage.data.attributes.url);
   return (
     <>
+      <Seo seo={projects.attributes.seo} />
       <div className="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0">
         <h1 className="my-5 text-center text-5xl text-white">Projects</h1>
         <Separator.Root className="mb-8 h-1 w-full bg-neutral-100" />

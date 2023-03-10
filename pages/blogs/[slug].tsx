@@ -2,10 +2,12 @@
 import { ApiBlogBlog } from "../schemas";
 import * as Separator from "@radix-ui/react-separator";
 import Link from "next/link";
+import Seo from "../../components/seo";
 
 export default function Blogs({ blogs, preview = false }: { blogs: ApiBlogBlog[]; preview: boolean }) {
   return (
     <>
+      <Seo seo={blogs[0].attributes.seo} />
       {preview ? (
         <div className="relative bg-indigo-600">
           <div className="mx-auto max-w-7xl py-3 px-3 sm:px-6 lg:px-8">

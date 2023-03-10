@@ -11,7 +11,7 @@ export default function Blogs({ blogs, blogsMeta }: { blogs: ApiBlogBlog[]; blog
   return (
     <>
       <div className="mx-auto max-w-3xl px-4 py-2 sm:px-6 xl:max-w-5xl xl:px-0">
-        <h2 className="my-5 text-center text-5xl text-white">Blogs</h2>
+        <h1 className="my-5 text-center text-5xl text-white">Blogs</h1>
         <Separator.Root className="mb-8 h-1 w-full bg-neutral-100" />
         <div className="grid grid-cols-1 gap-4">
           {blogs.map((blog) => {
