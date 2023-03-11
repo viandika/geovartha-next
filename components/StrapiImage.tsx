@@ -5,7 +5,13 @@ import ExportedImage from "next-image-export-optimizer";
 export const StrapiImage = ({ image, cls }: any) => {
   const { alternativeText, width, height } = image.data.attributes;
   return (
-    <ExportedImage width={width} height={height} src={getStrapiMedia(image)} alt={alternativeText || ""} className={cls} />
+    <ExportedImage
+      width={width}
+      height={height}
+      src={getStrapiMedia(image)}
+      alt={alternativeText || ""}
+      className={cls}
+    />
   );
 };
 

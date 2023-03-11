@@ -26,7 +26,6 @@ async function fetchStrapiAPI(path = "", urlParamsObject = {}, options = {}) {
   return await response.json();
 }
 
-
 // const [medias] = await Promise.all([
 //   fetchStrapiAPI("/upload/files", {
 //     fields: ["url"]
@@ -40,6 +39,6 @@ const medias = async () => {
       fields: ["url"],
     }),
   ]);
-  return media.map((img) => getStrapiURL(img.url))
-}
+  return media.map((img) => getStrapiURL(img.url));
+};
 module.exports = medias();
