@@ -30,7 +30,7 @@
   "devDependencies": {
     "@types/qs": "^6.9.7",
     "autoprefixer": "^10.4.14",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-prettier": "^8.8.0",
     "postcss": "^8.4.20",
     "prettier": "^2.8.7",
     "prettier-plugin-tailwindcss": "^0.2.6",
