@@ -1,11 +1,12 @@
 ﻿import { SubmitHandler, useForm } from "react-hook-form";
 import * as Separator from "@radix-ui/react-separator";
+import { getStrapiURL } from "../lib/strapiApi";
 
 type Inputs = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  comment: string;
+  FirstName: string;
+  LastName: string;
+  Email: string;
+  Message: string;
 };
 
 export default function Contacts() {
@@ -15,7 +16,16 @@ export default function Contacts() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    fetch(getStrapiURL("/api/contact-us-forms"), {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ data: data })
+    }).then(() => console.log("submitted"))
+  };
 
   return (
     <>
@@ -40,9 +50,9 @@ export default function Contacts() {
                 className="block w-full rounded-lg border border-neutral-600 bg-neutral-700 p-2.5 text-sm text-white placeholder-neutral-400 focus:border-blue-500 focus:ring-blue-500"
                 placeholder=" "
                 required
-                {...register("firstName", { required: true })}
+                {...register("FirstName", { required: true })}
               />
-              {errors.firstName && (
+              {errors.FirstName && (
                 <p className="mt-2 text-sm text-red-500">
                   <span className="font-medium">This field is required</span>
                 </p>
@@ -58,9 +68,9 @@ export default function Contacts() {
                 className="block w-full rounded-lg border border-neutral-600 bg-neutral-700 p-2.5 text-sm text-white placeholder-neutral-400 focus:border-blue-500 focus:ring-blue-500"
                 placeholder=" "
                 required
-                {...register("lastName", { required: true })}
+                {...register("LastName", { required: true })}
               />
-              {errors.lastName && (
+              {errors.LastName && (
                 <p className="mt-2 text-sm text-red-500">
                   <span className="font-medium">This field is required</span>
                 </p>
@@ -73,12 +83,17 @@ export default function Contacts() {
             </label>
             <input
               type="email"
-              name="email"
               id="email"
               className="block w-full rounded-lg border border-neutral-600 bg-neutral-700 p-2.5 text-sm text-white placeholder-neutral-400 focus:border-blue-500 focus:ring-blue-500"
               placeholder=" "
               required
+              {...register("Email", { required: true })}
             />
+            {errors.Email && (
+              <p className="mt-2 text-sm text-red-500">
+                <span className="font-medium">This field is required</span>
+              </p>
+            )}
           </div>
           <label htmlFor="message" className="mb-2 block text-sm font-medium text-white">
             Your message
@@ -88,8 +103,13 @@ export default function Contacts() {
             rows={4}
             className=" mb-6 block w-full rounded-lg border border-neutral-600 bg-neutral-700 p-2.5 text-sm text-white placeholder-neutral-400 shadow-xl focus:border-blue-500 focus:ring-blue-500"
             placeholder="Leave a comment..."
-            {...register("comment", { required: true })}
+            {...register("Message", { required: true })}
           ></textarea>
+          {errors.Message && (
+            <p className="mt-2 text-sm text-red-500">
+              <span className="font-medium">This field is required</span>
+            </p>
+          )}
           <button
             type="submit"
             className="mb-2 mr-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-800"
