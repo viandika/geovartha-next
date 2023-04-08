@@ -1,6 +1,7 @@
 ﻿import { SubmitHandler, useForm } from "react-hook-form";
 import * as Separator from "@radix-ui/react-separator";
 import { getStrapiURL } from "../lib/strapiApi";
+import { useState } from "react";
 
 type Inputs = {
   FirstName: string;
@@ -10,6 +11,8 @@ type Inputs = {
 };
 
 export default function Contacts() {
+  const [submitSuccess, setSubmitSuccess] = useState(false)
+
   const {
     register,
     handleSubmit,
@@ -24,7 +27,7 @@ export default function Contacts() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ data: data })
-    }).then(() => console.log("submitted"))
+    }).then(() => setSubmitSuccess(true))
   };
 
   return (
@@ -117,6 +120,7 @@ export default function Contacts() {
             Submit
           </button>
         </form>
+        {submitSuccess && (<p className="text-lg font-semibold text-green-500">Thank you for reaching out. We will get in touch shortly.</p> )}
       </div>
     </>
   );
