@@ -1,7 +1,8 @@
 ﻿import { SubmitHandler, useForm } from "react-hook-form";
 import * as Separator from "@radix-ui/react-separator";
 import { getStrapiURL } from "../lib/strapiApi";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 type Inputs = {
   FirstName: string;
@@ -11,7 +12,9 @@ type Inputs = {
 };
 
 export default function Contacts() {
-  const [submitSuccess, setSubmitSuccess] = useState(false)
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  const [recaptchaToken, setRecaptchaToken] = useState("");
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const {
     register,
@@ -19,16 +22,24 @@ export default function Contacts() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<Inputs> = useCallback(async (data) => {
+    if (!executeRecaptcha) {
+      console.log("Execute recaptcha not yet available");
+      return;
+    }
+
+    const token = await executeRecaptcha("submit");
+    setRecaptchaToken(token);
+
     fetch(getStrapiURL("/api/contact-us-forms"), {
       method: "POST",
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        "Accept": "application/json",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ data: data })
-    }).then(() => setSubmitSuccess(true))
-  };
+      body: JSON.stringify({ data: data }),
+    }).then(() => setSubmitSuccess(true));
+  }, [executeRecaptcha])
 
   return (
     <>
@@ -120,7 +131,9 @@ export default function Contacts() {
             Submit
           </button>
         </form>
-        {submitSuccess && (<p className="text-lg font-semibold text-green-500">Thank you for reaching out. We will get in touch shortly.</p> )}
+        {submitSuccess && (
+          <p className="text-lg font-semibold text-green-500">Thank you for reaching out. We will get in touch
+            shortly.</p>)}
       </div>
     </>
   );

@@ -1,12 +1,13 @@
 import "../styles/globals.css";
 import "../styles/ckeditor.css";
 import type { AppProps } from "next/app";
+import App from "next/app";
 import LayoutWrapper from "../components/LayoutWrapper";
 import { Analytics } from "@vercel/analytics/react";
 import { createContext } from "react";
 import { fetchStrapiAPI } from "../lib/strapiApi";
-import App from "next/app";
 import { ApiGlobalGlobal } from "./schemas";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 // Store Strapi Global object in context
 export const GlobalContext = createContext<ApiGlobalGlobal["attributes"]>({} as ApiGlobalGlobal["attributes"]);
@@ -21,10 +22,20 @@ export default function MyApp({
   const { global } = pageProps;
   return (
     <GlobalContext.Provider value={global.attributes}>
-      <LayoutWrapper>
-        <Component {...pageProps} />
-        <Analytics />
-      </LayoutWrapper>
+      <GoogleReCaptchaProvider
+        reCaptchaKey="6Lc89G0lAAAAAN1_jglVCJa7VQtTbjfBWPherl3a"
+        scriptProps={{
+          async: false, // optional, default to false,
+          defer: false, // optional, default to false
+          appendTo: "head", // optional, default to "head", can be "head" or "body",
+          nonce: undefined, // optional, default undefined
+        }}
+      >
+        <LayoutWrapper>
+          <Component {...pageProps} />
+          <Analytics />
+        </LayoutWrapper>
+      </GoogleReCaptchaProvider>
     </GlobalContext.Provider>
   );
 }
