@@ -126,6 +126,7 @@ export default function Contacts() {
               <span className="font-medium">This field is required</span>
             </p>
           )}
+          <div className="mb-2">
           <HCaptcha
             sitekey={process.env.NEXT_PUBLIC_REACT_APP_SITEKEY as string}
             onVerify={setToken}
@@ -133,9 +134,10 @@ export default function Contacts() {
             onExpire={() => setToken("")}
             theme="dark"
           />
+          </div>
           <button
             type="submit"
-            className="mb-2 mr-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-800"
+            className="my-2 mr-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-800"
           >
             Submit
           </button>
