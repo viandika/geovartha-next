@@ -2,6 +2,7 @@
 import * as Separator from "@radix-ui/react-separator";
 import { getStrapiURL } from "../lib/strapiApi";
 import { useState } from "react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 type Inputs = {
   FirstName: string;
@@ -11,23 +12,36 @@ type Inputs = {
 };
 
 export default function Contacts() {
-  const [submitSuccess, setSubmitSuccess] = useState(false)
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [token, setToken] = useState("");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    if (!token) {
+      return alert("Captcha token required");
+    }
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    fetch(getStrapiURL("/api/contact-us-forms"), {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ data: data })
-    }).then(() => setSubmitSuccess(true))
+    const sendData = {...data, Token: token}
+
+    try {
+      const submitResult = await fetch(getStrapiURL("/api/contact-us-forms"), {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data: sendData }),
+      });
+      if (submitResult.ok) {
+        setSubmitSuccess(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -70,8 +84,7 @@ export default function Contacts() {
                 id="last_name"
                 className="block w-full rounded-lg border border-neutral-600 bg-neutral-700 p-2.5 text-sm text-white placeholder-neutral-400 focus:border-blue-500 focus:ring-blue-500"
                 placeholder=" "
-                required
-                {...register("LastName", { required: true })}
+                {...register("LastName")}
               />
               {errors.LastName && (
                 <p className="mt-2 text-sm text-red-500">
@@ -113,6 +126,13 @@ export default function Contacts() {
               <span className="font-medium">This field is required</span>
             </p>
           )}
+          <HCaptcha
+            sitekey={process.env.NEXT_PUBLIC_REACT_APP_SITEKEY as string}
+            onVerify={setToken}
+            onError={() => setToken("")}
+            onExpire={() => setToken("")}
+            theme="dark"
+          />
           <button
             type="submit"
             className="mb-2 mr-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-800"
@@ -120,7 +140,11 @@ export default function Contacts() {
             Submit
           </button>
         </form>
-        {submitSuccess && (<p className="text-lg font-semibold text-green-500">Thank you for reaching out. We will get in touch shortly.</p> )}
+        {submitSuccess && (
+          <p className="text-lg font-semibold text-green-500">
+            Thank you for reaching out. We will get in touch shortly.
+          </p>
+        )}
       </div>
     </>
   );

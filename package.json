@@ -10,6 +10,7 @@
     "format": "prettier --config ./.prettierrc --write --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@hcaptcha/react-hcaptcha": "^1.8.1",
     "@next/font": "^13.3.0",
     "@radix-ui/react-separator": "^1.0.2",
     "@types/node": "18.15.11",
