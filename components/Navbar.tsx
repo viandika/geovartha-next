@@ -96,12 +96,12 @@ export const Navbar = () => {
               </Link>
             </li>
             <li key="contactLink">
-              <a
-                href="#"
+              <Link
+                href="/contact"
                 className="block rounded py-2 pl-3 pr-4 text-gray-400 hover:bg-gray-700 md:border-0 md:p-0 md:text-lg md:hover:bg-transparent md:hover:text-white"
               >
                 Contact Us
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

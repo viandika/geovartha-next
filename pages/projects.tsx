@@ -6,7 +6,6 @@ import { getStrapiMedia } from "../lib/strapiMedia";
 import Seo from "../components/seo";
 
 export default function projects({ projects }: { projects: ApiProjectsPageProjectsPage }) {
-  console.log(projects.attributes.Projects[0].DoiImage.data.attributes.url);
   return (
     <>
       <Seo seo={projects.attributes.seo} />
@@ -21,22 +20,24 @@ export default function projects({ projects }: { projects: ApiProjectsPageProjec
             return (
               <div key={project.Title} className="mx-4 rounded-xl bg-neutral-700 p-2 shadow hover:shadow-xl">
                 <a href={project.LinkToProject} target="_blank" rel="noreferrer">
-                  <StrapiImage
-                    cls="h-auto w-full sm:h-auto lg:w-4/5 object-cover object-center mx-auto"
-                    image={project.Logo}
-                  />
+                  {project.Logo && (
+                    <StrapiImage
+                      cls="h-auto w-full sm:h-auto lg:w-4/5 object-cover object-center mx-auto"
+                      image={project.Logo}
+                    />
+                  )}
                   <p className="text-center text-xl text-white">{project.Title}</p>
                 </a>
-                <a href={project.DoiLink} target="_blank" rel="noreferrer">
-                  {project.DoiLink && (
-                    // eslint-disable-next-line @next/next/no-img-element
+                {project.DoiLink && project.DoiImage.data && (
+                  <a href={project.DoiLink} target="_blank" rel="noreferrer">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       className="max-w-1/2 mx-auto my-2 h-auto object-cover object-center sm:h-auto"
                       src={getStrapiMedia(project.DoiImage)}
                       alt="Doi"
                     />
-                  )}
-                </a>
+                  </a>
+                )}
               </div>
             );
           })}
