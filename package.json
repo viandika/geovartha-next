@@ -13,7 +13,7 @@
     "@hcaptcha/react-hcaptcha": "^1.8.1",
     "@next/font": "^13.4.6",
     "@radix-ui/react-separator": "^1.0.3",
-    "@types/node": "20.4.1",
+    "@types/node": "20.6.2",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.0.11",
     "@vercel/analytics": "^1.0.2",
