@@ -1,8 +1,11 @@
 ﻿import { fetchStrapiAPI } from "../../../lib/strapiApi";
-import { ApiBlogBlog } from "../../schemas";
 import * as Separator from "@radix-ui/react-separator";
 import { StrapiMeta } from "../../common";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+import { StrapiImage } from "../../../components/StrapiImage";
+import Head from "next/head";
+import { ApiBlogBlog } from "../../contentTypes";
 
 const blogsPerPage = 5;
 
@@ -10,6 +13,9 @@ export default function Blogs({ blogs, blogsMeta }: { blogs: ApiBlogBlog[]; blog
   const pagesArr = Array.from(Array(blogsMeta.pagination.pageCount), (_, i) => i + 1);
   return (
     <>
+      <Head key="blogs-page">
+        <title>Blogs | GeoVartha</title>
+      </Head>
       <div className="mx-auto max-w-3xl px-4 py-2 sm:px-6 xl:max-w-5xl xl:px-0">
         <h1 className="my-5 text-center text-5xl text-white">Blogs</h1>
         <Separator.Root className="mb-8 h-1 w-full bg-neutral-100" />
@@ -24,17 +30,28 @@ export default function Blogs({ blogs, blogsMeta }: { blogs: ApiBlogBlog[]; blog
                   <h2 className="mb-2 text-xl text-geovartha">{blog.attributes.Title}</h2>
                 </Link>
                 <p className="text-base italic text-gray-200">
-                  {new Date(blog.attributes.DatePublished).toLocaleDateString("en-GB", {
+                  {new Date(blog.attributes.PublishedDate).toLocaleDateString("en-GB", {
                     day: "2-digit",
                     month: "long",
                     year: "numeric",
                   })}
                 </p>
                 <p className="text-base italic text-gray-200">By: {blog.attributes.Author}</p>
-                <div
-                  className="ck-content mt-2 text-white"
-                  dangerouslySetInnerHTML={createMarkup(blog.attributes.AdvancedText)}
+                <StrapiImage
+                  cls="h-auto w-full sm:h-auto lg:max-w-[50%] object-center mx-auto object-cover object-center my-4"
+                  image={blog.attributes.Image}
                 />
+                <ReactMarkdown className="text-base font-normal text-gray-300 my-2 leading-relaxed text-justify whitespace-pre-wrap">
+                  {blog.attributes.Content}
+                </ReactMarkdown>
+                <a
+                  href={blog.attributes.ReadMoreURL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-orange-400 hover:text-orange-500 text-base cursor-pointer"
+                >
+                  Read More...
+                </a>
               </div>
             );
           })}
@@ -113,7 +130,7 @@ export default function Blogs({ blogs, blogsMeta }: { blogs: ApiBlogBlog[]; blog
 export async function getStaticPaths() {
   const [blogsRes] = await Promise.all([
     fetchStrapiAPI("/blogs", {
-      sort: ["DatePublished:desc"],
+      sort: ["PublishedDate:desc"],
       fields: ["id"],
       pagination: {
         pageSize: blogsPerPage,
@@ -135,13 +152,13 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }: { params: { page: number } }) {
   const [blogsRes] = await Promise.all([
     fetchStrapiAPI("/blogs", {
-      sort: ["DatePublished:desc"],
+      sort: ["PublishedDate:desc"],
       pagination: {
         page: params.page,
         pageSize: blogsPerPage,
       },
       populate: {
-        BlogContent: {
+        Image: {
           populate: "*",
         },
       },
@@ -153,8 +170,4 @@ export async function getStaticProps({ params }: { params: { page: number } }) {
       blogsMeta: blogsRes.meta,
     },
   };
-}
-
-function createMarkup(text: any) {
-  return { __html: text };
 }

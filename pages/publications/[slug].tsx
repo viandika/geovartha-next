@@ -1,14 +1,16 @@
 ﻿import { fetchStrapiAPI } from "../../lib/strapiApi";
-import { ApiPublicationPublication } from "../schemas";
 import * as Separator from "@radix-ui/react-separator";
 import Link from "next/link";
 import Seo from "../../components/seo";
+import { StrapiImage } from "../../components/StrapiImage";
+import ReactMarkdown from "react-markdown";
+import { ApiPublicationPublication } from "../contentTypes";
 
 export default function Publications({ publications }: { publications: ApiPublicationPublication[] }) {
   return (
     <>
       <Seo seo={publications[0].attributes.seo} />
-      <div className="mx-auto max-w-3xl px-4 pb-2 pb-6 sm:px-6 xl:max-w-7xl xl:px-0">
+      <div className="mx-auto max-w-3xl px-4 pb-2 sm:px-6 xl:max-w-7xl xl:px-0">
         <Link
           href={{
             pathname: "/publications/page/[page]",
@@ -29,10 +31,21 @@ export default function Publications({ publications }: { publications: ApiPublic
             year: "numeric",
           })}
         </p>
-        <div
-          className="ck-content mt-2 text-white"
-          dangerouslySetInnerHTML={createMarkup(publications[0].attributes.Abstract)}
+        <StrapiImage
+          cls="h-auto w-full sm:h-auto lg:max-w-[50%] object-center mx-auto object-cover object-center my-4"
+          image={publications[0].attributes.Image}
         />
+        <ReactMarkdown className="text-base font-normal text-gray-300 my-2 leading-relaxed text-justify whitespace-pre-wrap">
+          {publications[0].attributes.Abstract}
+        </ReactMarkdown>
+        <a
+          href={publications[0].attributes.ReadMoreUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="text-orange-400 hover:text-orange-500 text-base cursor-pointer"
+        >
+          Read More...
+        </a>
       </div>
     </>
   );
@@ -56,6 +69,11 @@ export async function getStaticProps({ params }: { params: { slug: string } }) {
       filters: {
         slug: params.slug,
       },
+      populate: {
+        Image: {
+          populate: "*",
+        },
+      },
     }),
   ]);
   return {
@@ -63,8 +81,4 @@ export async function getStaticProps({ params }: { params: { slug: string } }) {
       publications: publicationsRes.data,
     },
   };
-}
-
-function createMarkup(text: any) {
-  return { __html: text };
 }

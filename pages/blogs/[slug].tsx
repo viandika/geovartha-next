@@ -1,8 +1,10 @@
 ﻿import { fetchStrapiAPI } from "../../lib/strapiApi";
-import { ApiBlogBlog } from "../schemas";
 import * as Separator from "@radix-ui/react-separator";
 import Link from "next/link";
 import Seo from "../../components/seo";
+import { StrapiImage } from "../../components/StrapiImage";
+import ReactMarkdown from "react-markdown";
+import { ApiBlogBlog } from "../contentTypes";
 
 export default function Blogs({ blogs, preview = false }: { blogs: ApiBlogBlog[]; preview: boolean }) {
   return (
@@ -41,17 +43,28 @@ export default function Blogs({ blogs, preview = false }: { blogs: ApiBlogBlog[]
         <h1 className="my-5 text-center text-5xl text-white">{blogs[0].attributes.Title}</h1>
         <Separator.Root className="mb-8 h-1 w-full bg-neutral-100" />
         <p className="text-base italic text-gray-200">
-          {new Date(blogs[0].attributes.DatePublished).toLocaleDateString("en-GB", {
+          {new Date(blogs[0].attributes.PublishedDate).toLocaleDateString("en-GB", {
             day: "2-digit",
             month: "long",
             year: "numeric",
           })}
         </p>
         <p className="text-base italic text-gray-200">By: {blogs[0].attributes.Author}</p>
-        <div
-          className="ck-content mt-2 text-white"
-          dangerouslySetInnerHTML={createMarkup(blogs[0].attributes.AdvancedText)}
+        <StrapiImage
+          cls="h-auto w-full sm:h-auto lg:max-w-[50%] object-center mx-auto object-cover object-center my-4"
+          image={blogs[0].attributes.Image}
         />
+        <ReactMarkdown className="text-base font-normal text-gray-300 my-2 leading-relaxed text-justify whitespace-pre-wrap">
+          {blogs[0].attributes.Content}
+        </ReactMarkdown>
+        <a
+          href={blogs[0].attributes.ReadMoreURL}
+          target="_blank"
+          rel="noreferrer"
+          className="text-orange-400 hover:text-orange-500 text-base cursor-pointer"
+        >
+          Read More...
+        </a>
       </div>
     </>
   );
@@ -75,10 +88,10 @@ export async function getStaticProps({ params, preview = false }: { params: { sl
       fetchStrapiAPI("/blogs", {
         publicationState: "preview",
         filters: {
-          slug: params.slug,
+          Slug: params.slug,
         },
         populate: {
-          BlogContent: {
+          Image: {
             populate: "*",
           },
         },
@@ -94,10 +107,10 @@ export async function getStaticProps({ params, preview = false }: { params: { sl
     const [blogsRes] = await Promise.all([
       fetchStrapiAPI("/blogs", {
         filters: {
-          slug: params.slug,
+          Slug: params.slug,
         },
         populate: {
-          BlogContent: {
+          Image: {
             populate: "*",
           },
         },
@@ -109,8 +122,4 @@ export async function getStaticProps({ params, preview = false }: { params: { sl
       },
     };
   }
-}
-
-function createMarkup(text: any) {
-  return { __html: text };
 }

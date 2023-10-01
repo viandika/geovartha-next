@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@hcaptcha/react-hcaptcha": "^1.8.1",
-    "@next/font": "^13.4.19",
     "@radix-ui/react-separator": "^1.0.3",
     "@types/node": "20.5.9",
     "@types/react": "18.2.21",
