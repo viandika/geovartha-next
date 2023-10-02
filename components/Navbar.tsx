@@ -1,8 +1,8 @@
 ﻿import Link from "next/link";
-import Image from "next/image";
 import GeovLogo from "../public/cropped-vartha-research.png";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import ExportedImage from "next-image-export-optimizer";
 
 export const Navbar = () => {
   const [navShow, setNavShow] = useState(false);
@@ -14,7 +14,7 @@ export const Navbar = () => {
     <nav className="border-gray-600 bg-neutral-800 px-2 py-2.5 sm:h-20 sm:px-4">
       <div className="container mx-auto flex flex-wrap items-center justify-between">
         <Link href="/" className="flex items-center">
-          <Image src={GeovLogo} className="mr-3 h-9 w-auto sm:h-12" alt="Geovartha Logo" />
+          <ExportedImage src={GeovLogo} className="mr-3 h-9 w-auto sm:h-12" alt="Geovartha Logo" />
         </Link>
         <button
           type="button"

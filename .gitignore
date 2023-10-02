@@ -36,3 +36,6 @@ yarn-error.log*
 next-env.d.ts
 
 .idea
+/public/nextImageExportOptimizer/
+/public/next-image-export-optimizer-hashes.json
+/remoteImagesForOptimization/

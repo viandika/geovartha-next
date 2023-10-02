@@ -1,10 +1,10 @@
 ﻿import Head from "next/head";
-import { useContext } from "react";
+import { Fragment, useContext } from "react";
 import { GlobalContext } from "../pages/_app";
 import { getStrapiMedia } from "../lib/strapiMedia";
 import { ApiGlobalGlobal, SharedMetaSocial, SharedSeo } from "../pages/schemas";
 
-const Seo = ({ seo }: { seo: SharedSeo }) => {
+const Seo = ({ seo }: { seo: SharedSeo["attributes"] }) => {
   const { defaultSeo, SiteName } = useContext<ApiGlobalGlobal["attributes"]>(GlobalContext);
   const seoWithDefaults: SharedSeo["attributes"] = {
     ...defaultSeo,
@@ -17,7 +17,6 @@ const Seo = ({ seo }: { seo: SharedSeo }) => {
     // Get full image URL
     metaImage: getStrapiMedia(seoWithDefaults.metaImage),
   };
-
   return (
     <Head>
       {fullSeo.metaViewport && <meta name="viewport" content={fullSeo.metaViewport} />}
@@ -42,19 +41,19 @@ const Seo = ({ seo }: { seo: SharedSeo }) => {
       {(fullSeo.metaSocial as SharedMetaSocial["attributes"][]).map((social) => {
         if (social.socialNetwork === "Twitter") {
           return (
-            <>
+            <Fragment key={social.title}>
               <meta name="twitter:title" content={social.title} />
               <meta name="twitter:description" content={social.description} />
               {social.image && <meta name="twitter:image" content={social.image} />}
-            </>
+            </Fragment>
           );
         } else if (social.socialNetwork === "Facebook") {
           return (
-            <>
+            <Fragment key={social.title}>
               <meta name="og:title" content={social.title} />
               <meta name="og:description" content={social.description} />
               {social.image && <meta name="og:image" content={social.image} />}
-            </>
+            </Fragment>
           );
         }
       })}

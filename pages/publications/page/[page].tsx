@@ -1,8 +1,10 @@
 ﻿import * as Separator from "@radix-ui/react-separator";
 import { fetchStrapiAPI } from "../../../lib/strapiApi";
-import { ApiPublicationPublication } from "../../schemas";
 import Link from "next/link";
 import { StrapiMeta } from "../../common";
+import { ApiPublicationPublication } from "../../contentTypes";
+import { StrapiImage } from "../../../components/StrapiImage";
+import ReactMarkdown from "react-markdown";
 
 const publicationsPerPage = 5;
 
@@ -27,10 +29,21 @@ export default function Publications({
               </Link>
               <h3 className="italic text-white">Authors: {publication.attributes.Authors}</h3>
               <p className="text-white">{publication.attributes.PublicationDate}</p>
-              <div
-                className="ck-content mt-2 text-white"
-                dangerouslySetInnerHTML={createMarkup(publication.attributes.Abstract)}
+              <StrapiImage
+                cls="h-auto w-full sm:h-auto lg:max-w-[50%] object-center mx-auto object-cover object-center my-4"
+                image={publication.attributes.Image}
               />
+              <ReactMarkdown className="text-base font-normal text-gray-300 my-2 leading-relaxed text-justify whitespace-pre-wrap">
+                {publication.attributes.Abstract}
+              </ReactMarkdown>
+              <a
+                href={publication.attributes.ReadMoreUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-orange-400 hover:text-orange-500 text-base cursor-pointer"
+              >
+                Read More...
+              </a>
             </div>
           );
         })}
@@ -140,6 +153,11 @@ export async function getStaticProps({ params }: { params: { page: number } }) {
         page: params.page,
         pageSize: publicationsPerPage,
       },
+      populate: {
+        Image: {
+          populate: "*",
+        },
+      },
     }),
   ]);
   return {
@@ -148,8 +166,4 @@ export async function getStaticProps({ params }: { params: { page: number } }) {
       publicationsMeta: PublicationsRes.meta,
     },
   };
-}
-
-function createMarkup(text: any) {
-  return { __html: text };
 }
