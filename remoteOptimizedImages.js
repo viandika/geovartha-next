@@ -3,6 +3,7 @@
 function getStrapiURL(path = "") {
   return `${process.env.NEXT_PUBLIC_STRAPI_API_URL || "http://127.0.0.1:1337"}${path}`;
 }
+
 async function fetchStrapiAPI(path = "", urlParamsObject = {}, options = {}) {
   // Merge default and user options
   const mergedOptions = {
@@ -26,13 +27,11 @@ async function fetchStrapiAPI(path = "", urlParamsObject = {}, options = {}) {
   return await response.json();
 }
 
-
-const medias = async () => {
-  const [media] = await Promise.all([
-    fetchStrapiAPI("/upload/files", {
-      fields: ["url"],
-    }),
-  ]);
-  return media.map((img) => getStrapiURL(img.url));
-};
-module.exports = medias();
+module.exports = fetchStrapiAPI("/upload/files", {
+  fields: ["url"],
+})
+  .then((media) => media.map((img) => getStrapiURL(img.url)))
+  .catch((error) => {
+    console.error(error);
+    return [];
+  });
